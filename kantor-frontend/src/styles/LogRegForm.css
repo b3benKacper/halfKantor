@@ -1,0 +1,30 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Roboto", Arial, sans-serif;
+    background: #fbfbfb;
+}
+
+form > input{
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #8b8b8b;
+}
+
+.btn_change{
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.btn_log_reg{
+    cursor: pointer;
+    width: 40%;
+    padding: 5px;
+    font-weight: bolder;
+}

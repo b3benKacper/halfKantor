@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: java
+      POSTGRES_PASSWORD: student123
+      POSTGRES_DB: kantor
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5444:5432"
+
+  backend:
+    build: ./kantor
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/kantor
+      SPRING_DATASOURCE_USERNAME: java
+      SPRING_DATASOURCE_PASSWORD: student123
+      CORS_ALLOWED_ORIGINS: "*"
+      # CORS_ALLOWED_ORIGINS: "http://192.168.55.104:3000"
+    ports:
+      - "8099:8089"
+
+  frontend:
+    build:
+      context: ./kantor-frontend
+      args:
+        REACT_APP_API_URL: http://localhost:8099
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
